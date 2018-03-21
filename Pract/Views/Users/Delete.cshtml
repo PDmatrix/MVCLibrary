@@ -1,0 +1,40 @@
+﻿@model Pract.Models.User
+
+@{
+    ViewBag.Title = "Удалить человека";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Удалить человека</h2>
+
+<h3>Вы действительно хотите удалить человека?</h3>
+<div>
+    <hr />
+    <!--<dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+
+    </dl>
+    -->
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-delete "/> |
+            @Html.ActionLink("Вернуться обратно", "Index")
+        </div>
+    }
+</div>

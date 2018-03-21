@@ -1,0 +1,40 @@
+﻿@model Pract.Models.Receipt
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Удаление выдачи</h2>
+
+<h3>Вы действительно хотите удалить выдачу?</h3>
+<div>
+    <!--<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("ФИО")
+        </dt>
+
+        <dd>
+            @Html.DisplayTextFor(model => model.User.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Название книги")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Name)
+        </dd>
+
+    </dl>
+    -->
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-delete" /> |
+            @Html.ActionLink("Вернуться обратно", "Index")
+        </div>
+    }
+</div>

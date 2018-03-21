@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Pract.Models.Receipt>
+
+@{
+    ViewBag.Title = "Выдача книг";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Выдача книг</h2>
+<table class="table">
+    <tr>
+        <th>ФИО</th>
+        <th>Название книги</th>
+        <th>Автор</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Book.Author)
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }, new { @class = "btn btn-edit" }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Id }, new { @class = "btn btn-delete" })
+            </td>
+        </tr>
+    }
+</table>
+@Html.ActionLink("Добавить", "Create", null, htmlAttributes: new { @class = "btn btn-create" })

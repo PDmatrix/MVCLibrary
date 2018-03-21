@@ -11,6 +11,7 @@
         <th>ФИО</th>
         <th>Название книги</th>
         <th>Автор</th>
+        <th>Дата</th>
         <th></th>
     </tr>
 
@@ -25,6 +26,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Book.Author)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
                 @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }, new { @class = "btn btn-edit" }) |

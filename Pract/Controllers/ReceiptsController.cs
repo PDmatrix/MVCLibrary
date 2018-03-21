@@ -32,7 +32,7 @@ namespace Pract.Controllers
         // POST: Receipts/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserId,BookId")] Receipt receipt)
+        public ActionResult Create([Bind(Include = "Id,UserId,BookId,Date")] Receipt receipt)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +66,7 @@ namespace Pract.Controllers
         // POST: Receipts/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserId,BookId")] Receipt receipt)
+        public ActionResult Edit([Bind(Include = "Id,UserId,BookId,Date")] Receipt receipt)
         {
             if (ModelState.IsValid)
             {

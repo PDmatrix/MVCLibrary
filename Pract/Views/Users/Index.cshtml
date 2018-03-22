@@ -8,12 +8,8 @@
 <h2>Информация о людях</h2>
 <table class="table">
     <tr>
-        <th>
-            ФИО
-        </th>
-        <th>
-            Возраст
-        </th>
+        <th>@Html.DisplayNameFor(model => model.Name)</th>
+        <th>@Html.DisplayNameFor(model => model.Birthday)</th>
         <th></th>
     </tr>
 
@@ -24,7 +20,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Age)
+                @Html.DisplayFor(modelItem => item.Birthday)
             </td>
             <td>
                 @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }, new { @class = "btn btn-edit" }) |

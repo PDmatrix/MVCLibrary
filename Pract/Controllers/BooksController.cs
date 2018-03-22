@@ -29,7 +29,7 @@ namespace Pract.Controllers
         // POST: Books/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Author")] Book book)
+        public ActionResult Create(Book book)
         {
             if (ModelState.IsValid)
             {
@@ -59,7 +59,7 @@ namespace Pract.Controllers
         // POST: Books/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Author")] Book book)
+        public ActionResult Edit(Book book)
         {
             if (ModelState.IsValid)
             {

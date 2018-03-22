@@ -29,7 +29,7 @@ namespace Pract.Controllers
         // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Age")] User user)
+        public ActionResult Create(User user)
         {
             if (ModelState.IsValid)
             {
@@ -59,7 +59,7 @@ namespace Pract.Controllers
         // POST: Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Age")] User user)
+        public ActionResult Edit(User user)
         {
             if (ModelState.IsValid)
             {

@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using System.ComponentModel.DataAnnotations;
 namespace Pract.Models
 {
     public class User
     {
         public int Id { get; set; }
+        [Display(Name = "ФИО")]
         public string Name { get; set; }
-        public int Age { get; set; }
+        [DataType(DataType.Date)]
+        //Для DatePicker
+        //[DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)] 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Дата рождения")]
+        public DateTime Birthday { get; set; }
     }
 }

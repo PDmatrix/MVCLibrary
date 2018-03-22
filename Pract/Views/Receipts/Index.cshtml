@@ -8,10 +8,10 @@
 <h2>Выдача книг</h2>
 <table class="table">
     <tr>
-        <th>ФИО</th>
-        <th>Название книги</th>
-        <th>Автор</th>
-        <th>Дата</th>
+        <th>@Html.DisplayNameFor(model => model.UserId)</th>
+        <th>@Html.DisplayNameFor(model => model.BookId)</th>
+        <th>@Html.DisplayNameFor(model => model.Book.Author)</th>
+        <th>@Html.DisplayNameFor(model => model.Date)</th>
         <th></th>
     </tr>
 
@@ -38,4 +38,4 @@
     }
 </table>
 @Html.ActionLink("Добавить", "Create", null, htmlAttributes: new { @class = "btn btn-create" })
-@Html.ActionLink("Список просроченных выадч", "Overdue")
+@Html.ActionLink("Список просроченных выдач", "Overdue")

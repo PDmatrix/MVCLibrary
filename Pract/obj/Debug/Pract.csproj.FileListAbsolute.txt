@@ -50,3 +50,4 @@ E:\Coding\C#\ver3\Pract\Pract\bin\EntityFramework.dll
 E:\Coding\C#\ver3\Pract\Pract\bin\EntityFramework.SqlServer.dll
 E:\Coding\C#\ver3\Pract\Pract\bin\EntityFramework.xml
 E:\Coding\C#\ver3\Pract\Pract\bin\EntityFramework.SqlServer.xml
+E:\Coding\C#\ver3\Pract\Pract\obj\Debug\Pract.csprojResolveAssemblyReference.cache

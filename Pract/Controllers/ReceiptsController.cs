@@ -105,6 +105,12 @@ namespace Pract.Controllers
             return RedirectToAction("Index");
         }
 
+        // GET: Receipts/Overdue
+        public ActionResult Overdue()
+        {
+            var receipts = db.Receipts.Where(r => r.Date <= DateTime.Now).Include(r => r.Book).Include(r => r.User);
+            return View(receipts);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

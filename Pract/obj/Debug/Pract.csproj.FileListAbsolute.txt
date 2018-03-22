@@ -43,7 +43,6 @@ E:\Coding\C#\ver3\Pract\Pract\bin\ru\System.Web.Razor.resources.dll
 E:\Coding\C#\ver3\Pract\Pract\bin\ru\System.Web.WebPages.resources.dll
 E:\Coding\C#\ver3\Pract\Pract\bin\ru\System.Web.WebPages.Deployment.resources.dll
 E:\Coding\C#\ver3\Pract\Pract\bin\ru\System.Web.WebPages.Razor.resources.dll
-E:\Coding\C#\ver3\Pract\Pract\obj\Debug\Pract.csprojResolveAssemblyReference.cache
 E:\Coding\C#\ver3\Pract\Pract\obj\Debug\Pract.csproj.CoreCompileInputs.cache
 E:\Coding\C#\ver3\Pract\Pract\obj\Debug\Pract.dll
 E:\Coding\C#\ver3\Pract\Pract\obj\Debug\Pract.pdb

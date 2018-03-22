@@ -39,9 +39,9 @@ textarea {
     font-weight: 700;
 }
 
-    .btn:hover {
-        color: white;
-    }
+.btn:hover {
+    color: white;
+}
 
 .btn-edit {
     background: rgb(194, 203, 51);
@@ -58,6 +58,11 @@ textarea {
     box-shadow: 0 -3px rgb(181, 33, 33) inset;
 }
 
+.btn-back {
+    background: rgb(105, 114, 236);
+    box-shadow: 0 -3px rgb(63, 47, 148) inset;
+}
+
 .btn-create:hover {
     background: rgb(53,167,110);
 }
@@ -68,4 +73,8 @@ textarea {
 
 .btn-delete:hover {
     background: rgb(181, 33, 33);
+}
+
+.btn-back:hover {
+    background: rgb(63, 47, 148);
 }

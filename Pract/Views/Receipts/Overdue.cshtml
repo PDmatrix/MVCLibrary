@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<Pract.Models.Receipt>
 
 @{
-    ViewBag.Title = "Выдача книг";
+    ViewBag.Title = "Просроченные выдачи";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Выдача книг</h2>
+<h2>Просроченные выдачи</h2>
 <table class="table">
     <tr>
         <th>ФИО</th>
@@ -30,12 +30,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
-            <td>
+            <!--
+             <td>
                 @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }, new { @class = "btn btn-edit" }) |
                 @Html.ActionLink("Удалить", "Delete", new { id = item.Id }, new { @class = "btn btn-delete" })
             </td>
+            -->
         </tr>
     }
 </table>
-@Html.ActionLink("Добавить", "Create", null, htmlAttributes: new { @class = "btn btn-create" })
-@Html.ActionLink("Список просроченных выадч", "Overdue")
+<div>
+    @Html.ActionLink("Вернуться обратно", "Index", null, htmlAttributes: new { @class = "btn btn-back" })
+</div>
+<!--@Html.ActionLink("Добавить", "Create", null, htmlAttributes: new { @class = "btn btn-create" })-->

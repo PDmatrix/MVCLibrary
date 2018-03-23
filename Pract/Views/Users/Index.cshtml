@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Pract.Models.User>
+﻿@model IEnumerable<Pract.Models.UserViewModel>
 
 @{
     ViewBag.Title = "Информация о людях";
@@ -8,7 +8,8 @@
 <h2>Информация о людях</h2>
 <table class="table">
     <tr>
-        <th>@Html.DisplayNameFor(model => model.Name)</th>
+        <th>@Html.DisplayNameFor(model => model.Users.Name)</th>
+        <th>@Html.DisplayNameFor(model => model.Age)</th>
         <th>@Html.DisplayNameFor(model => model.Birthday)</th>
         <th></th>
     </tr>
@@ -17,14 +18,17 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Users.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Birthday)
             </td>
             <td>
-                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }, new { @class = "btn btn-edit" }) |
-                @Html.ActionLink("Удалить", "Delete", new { id = item.Id }, new { @class = "btn btn-delete" })
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Users.Id }, new { @class = "btn btn-edit" }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Users.Id }, new { @class = "btn btn-delete" })
             </td>
         </tr>
     }

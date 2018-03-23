@@ -8,8 +8,10 @@ namespace Pract.Models
     public class User
     {
         public int Id { get; set; }
+        [Required]
         [Display(Name = "ФИО")]
         public string Name { get; set; }
+        [Required]
         [DataType(DataType.Date)]
         //Для DatePicker
         //[DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)] 

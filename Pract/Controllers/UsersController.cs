@@ -17,7 +17,13 @@ namespace Pract.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            var list = db.Users.Select(x => new UserViewModel
+            {
+                Users = x,
+                Age = (DateTime.Now.Month < x.Birthday.Month || (DateTime.Now.Month == x.Birthday.Month && DateTime.Now.Day < x.Birthday.Day)) ? DateTime.Now.Year - x.Birthday.Year - 1 : DateTime.Now.Year - x.Birthday.Year,
+                Birthday = x.Birthday,
+            }).ToArray();
+            return View(list);
         }
 
         // GET: Users/Create
@@ -82,7 +88,12 @@ namespace Pract.Controllers
             {
                 return HttpNotFound();
             }
-            return View(user);
+            UserViewModel viewModel = new UserViewModel
+            {
+                Users = user,
+                Birthday = user.Birthday
+            };
+            return View(viewModel);
         }
 
         // POST: Users/Delete/5

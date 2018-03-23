@@ -1,4 +1,4 @@
-﻿@model Pract.Models.User
+﻿@model Pract.Models.UserViewModel
 
 @{
     ViewBag.Title = "Удалить человека";
@@ -10,13 +10,13 @@
 <h3>Вы действительно хотите удалить человека?</h3>
 <div>
     <hr />
-    <!--<dl class="dl-horizontal">
+    <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Users.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Users.Name)
         </dd>
 
         <dt>
@@ -28,7 +28,7 @@
         </dd>
 
     </dl>
-    -->
+    
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 

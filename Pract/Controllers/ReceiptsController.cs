@@ -18,15 +18,19 @@ namespace Pract.Controllers
         public ActionResult Index()
         {
             var receipts = db.Receipts.Include(r => r.Book).Include(r => r.User);
-            return View(receipts.ToList());
+            return View(receipts.ToArray());
         }
 
         // GET: Receipts/Create
         public ActionResult Create()
         {
-            ViewBag.BookId = new SelectList(db.Books, "Id", "Name");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Name");
-            return View();
+            ReceiptViewModel viewModel = new ReceiptViewModel
+            {
+                Users = new SelectList(db.Users.ToArray(), "Id", "Name"),
+                Books = new SelectList(db.Books.ToArray(), "Id", "Name"),
+                Date = null
+            };
+            return View(viewModel);
         }
 
         // POST: Receipts/Create
@@ -41,9 +45,14 @@ namespace Pract.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BookId = new SelectList(db.Books, "Id", "Name", receipt.BookId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Name", receipt.UserId);
-            return View(receipt);
+            ReceiptViewModel viewModel = new ReceiptViewModel
+            {
+                Id = receipt.Id,
+                Users = new SelectList(db.Users.ToArray(), "Id", "Name", receipt.User),
+                Books = new SelectList(db.Books.ToArray(), "Id", "Name", receipt.Date),
+                Date = receipt.Date
+            };
+            return View(viewModel);
         }
 
         // GET: Receipts/Edit/5
@@ -58,9 +67,14 @@ namespace Pract.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.BookId = new SelectList(db.Books, "Id", "Name", receipt.BookId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Name", receipt.UserId);
-            return View(receipt);
+            ReceiptViewModel viewModel = new ReceiptViewModel
+            {
+                Id = receipt.Id,
+                Users = new SelectList(db.Users.ToArray(), "Id", "Name", receipt.User),
+                Books = new SelectList(db.Books.ToArray(), "Id", "Name", receipt.Book),
+                Date = receipt.Date
+            };
+            return View(viewModel);
         }
 
         // POST: Receipts/Edit/5
@@ -74,9 +88,14 @@ namespace Pract.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.BookId = new SelectList(db.Books, "Id", "Name", receipt.BookId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Name", receipt.UserId);
-            return View(receipt);
+            ReceiptViewModel viewModel = new ReceiptViewModel
+            {
+                Id = receipt.Id,
+                Users = new SelectList(db.Users.ToArray(), "Id", "Name", receipt.User),
+                Books = new SelectList(db.Books.ToArray(), "Id", "Name", receipt.Book),
+                Date = receipt.Date
+            };
+            return View(viewModel);
         }
 
         // GET: Receipts/Delete/5
@@ -86,7 +105,7 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Receipt receipt = db.Receipts.Find(id);
+            Receipt receipt = db.Receipts.Include(r => r.Book).Include(r => r.User).FirstOrDefault(r => r.Id == id);
             if (receipt == null)
             {
                 return HttpNotFound();

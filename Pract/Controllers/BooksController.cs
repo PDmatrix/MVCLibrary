@@ -7,17 +7,17 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Pract.Models;
+using Pract.Server;
 
 namespace Pract.Controllers
 {
     public class BooksController : Controller
     {
-        private LibContext db = new LibContext();
 
         // GET: Books
         public ActionResult Index()
         {
-            return View(db.Books.ToArray());
+            return View(BookHandler.IndexBook());
         }
 
         // GET: Books/Create
@@ -31,13 +31,10 @@ namespace Pract.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Book book)
         {
-            if (ModelState.IsValid)
+            if (BookHandler.CreateBook(book, ModelState.IsValid))
             {
-                db.Books.Add(book);
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(book);
         }
 
@@ -48,7 +45,7 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            Book book = BookHandler.FindBook(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -61,10 +58,8 @@ namespace Pract.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Book book)
         {
-            if (ModelState.IsValid)
+            if (BookHandler.EditBook(book, ModelState.IsValid))
             {
-                db.Entry(book).State = EntityState.Modified;
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(book);
@@ -77,7 +72,7 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            Book book = BookHandler.FindBook(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -90,14 +85,13 @@ namespace Pract.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Book book = db.Books.Find(id);
-            db.Books.Remove(book);
-            db.SaveChanges();
+            BookHandler.DeleteBook(id);
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
+            LibContext db = new LibContext();
             if (disposing)
             {
                 db.Dispose();

@@ -7,30 +7,23 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Pract.Models;
+using Pract.Server;
 
 namespace Pract.Controllers
 {
     public class ReceiptsController : Controller
     {
-        private LibContext db = new LibContext();
 
         // GET: Receipts
         public ActionResult Index()
         {
-            var receipts = db.Receipts.Include(r => r.Book).Include(r => r.User);
-            return View(receipts.ToArray());
+            return View(ReceiptHandler.IndexReceipt());
         }
 
         // GET: Receipts/Create
         public ActionResult Create()
         {
-            ReceiptViewModel viewModel = new ReceiptViewModel
-            {
-                Users = new SelectList(db.Users.ToArray(), "Id", "Name"),
-                Books = new SelectList(db.Books.ToArray(), "Id", "Name"),
-                Date = null
-            };
-            return View(viewModel);
+            return View(ReceiptHandler.ReceiptCreateView());
         }
 
         // POST: Receipts/Create
@@ -38,21 +31,11 @@ namespace Pract.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Exclude = "User, Book")] Receipt receipt)
         {
-            if (ModelState.IsValid)
+            if (ReceiptHandler.CreateReceipt(receipt, ModelState.IsValid))
             {
-                db.Receipts.Add(receipt);
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ReceiptViewModel viewModel = new ReceiptViewModel
-            {
-                Id = receipt.Id,
-                Users = new SelectList(db.Users.ToArray(), "Id", "Name", receipt.User),
-                Books = new SelectList(db.Books.ToArray(), "Id", "Name", receipt.Date),
-                Date = receipt.Date
-            };
-            return View(viewModel);
+            return View(ReceiptHandler.ReceiptView(receipt));
         }
 
         // GET: Receipts/Edit/5
@@ -62,19 +45,12 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Receipt receipt = db.Receipts.Find(id);
+            Receipt receipt = ReceiptHandler.FindReceipt(id);
             if (receipt == null)
             {
                 return HttpNotFound();
             }
-            ReceiptViewModel viewModel = new ReceiptViewModel
-            {
-                Id = receipt.Id,
-                Users = new SelectList(db.Users.ToArray(), "Id", "Name", receipt.User),
-                Books = new SelectList(db.Books.ToArray(), "Id", "Name", receipt.Book),
-                Date = receipt.Date
-            };
-            return View(viewModel);
+            return View(ReceiptHandler.ReceiptView(receipt));
         }
 
         // POST: Receipts/Edit/5
@@ -82,20 +58,11 @@ namespace Pract.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Exclude = "User, Book")] Receipt receipt)
         {
-            if (ModelState.IsValid)
+            if (ReceiptHandler.EditReceipt(receipt, ModelState.IsValid))
             {
-                db.Entry(receipt).State = EntityState.Modified;
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ReceiptViewModel viewModel = new ReceiptViewModel
-            {
-                Id = receipt.Id,
-                Users = new SelectList(db.Users.ToArray(), "Id", "Name", receipt.User),
-                Books = new SelectList(db.Books.ToArray(), "Id", "Name", receipt.Book),
-                Date = receipt.Date
-            };
-            return View(viewModel);
+            return View(ReceiptHandler.ReceiptView(receipt));
         }
 
         // GET: Receipts/Delete/5
@@ -105,7 +72,7 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Receipt receipt = db.Receipts.Include(r => r.Book).Include(r => r.User).FirstOrDefault(r => r.Id == id);
+            Receipt receipt = ReceiptHandler.FindReceiptInclude(id);
             if (receipt == null)
             {
                 return HttpNotFound();
@@ -118,20 +85,18 @@ namespace Pract.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Receipt receipt = db.Receipts.Find(id);
-            db.Receipts.Remove(receipt);
-            db.SaveChanges();
+            ReceiptHandler.DeleteReceipt(id);
             return RedirectToAction("Index");
         }
 
         // GET: Receipts/Overdue
         public ActionResult Overdue()
         {
-            var receipts = db.Receipts.Where(r => r.Date <= DateTime.Now).Include(r => r.Book).Include(r => r.User);
-            return View(receipts);
+            return View(ReceiptHandler.OverdueReceipt());
         }
         protected override void Dispose(bool disposing)
         {
+            LibContext db = new LibContext();
             if (disposing)
             {
                 db.Dispose();

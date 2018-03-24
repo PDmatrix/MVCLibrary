@@ -7,23 +7,17 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Pract.Models;
+using Pract.Server;
 
 namespace Pract.Controllers
 {
     public class UsersController : Controller
     {
-        private LibContext db = new LibContext();
 
         // GET: Users
         public ActionResult Index()
         {
-            var list = db.Users.Select(x => new UserViewModel
-            {
-                Users = x,
-                Age = (DateTime.Now.Month < x.Birthday.Month || (DateTime.Now.Month == x.Birthday.Month && DateTime.Now.Day < x.Birthday.Day)) ? DateTime.Now.Year - x.Birthday.Year - 1 : DateTime.Now.Year - x.Birthday.Year,
-                Birthday = x.Birthday,
-            }).ToArray();
-            return View(list);
+            return View(UserHandler.IndexUser());
         }
 
         // GET: Users/Create
@@ -37,13 +31,10 @@ namespace Pract.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(User user)
         {
-            if (ModelState.IsValid)
+            if (UserHandler.CreateUser(user, ModelState.IsValid))
             {
-                db.Users.Add(user);
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(user);
         }
 
@@ -54,7 +45,7 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
+            User user = UserHandler.FindUser(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -67,10 +58,8 @@ namespace Pract.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(User user)
         {
-            if (ModelState.IsValid)
+            if (UserHandler.EditUser(user, ModelState.IsValid))
             {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -83,17 +72,12 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
+            User user = UserHandler.FindUser(id);
             if (user == null)
             {
                 return HttpNotFound();
             }
-            UserViewModel viewModel = new UserViewModel
-            {
-                Users = user,
-                Birthday = user.Birthday
-            };
-            return View(viewModel);
+            return View(UserHandler.UserView(user));
         }
 
         // POST: Users/Delete/5
@@ -101,17 +85,16 @@ namespace Pract.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            User user = db.Users.Find(id);
-            db.Users.Remove(user);
-            db.SaveChanges();
+            UserHandler.DeleteUser(id);
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
         {
+            LibContext db = new LibContext();
             if (disposing)
             {
-                db.Dispose();
+               db.Dispose();
             }
             base.Dispose(disposing);
         }

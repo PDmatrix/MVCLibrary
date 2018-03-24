@@ -161,6 +161,9 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\BookHandler.cs" />
+    <Compile Include="Server\ReceiptHandler.cs" />
+    <Compile Include="Server\UserHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Database.mdf" />
@@ -213,10 +216,12 @@
     <Content Include="Views\Books\Edit.cshtml" />
     <Content Include="Views\Books\Index.cshtml" />
     <Content Include="Views\Receipts\Overdue.cshtml" />
+    <Content Include="Views\Books\_PartialBooksEdit.cshtml" />
+    <Content Include="Views\Receipts\_PartialReceiptsIndex.cshtml" />
+    <Content Include="Views\Receipts\_PartialReceiptsEdit.cshtml" />
+    <Content Include="Views\Users\_PartialUsersEdit.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Server\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>

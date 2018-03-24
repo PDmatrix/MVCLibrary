@@ -6,40 +6,7 @@
 }
 
 <h2>Просроченные выдачи</h2>
-<table class="table">
-    <tr>
-        <th>@Html.DisplayNameFor(model => model.UserId)</th>
-        <th>@Html.DisplayNameFor(model => model.BookId)</th>
-        <th>@Html.DisplayNameFor(model => model.Book.Author)</th>
-        <th>@Html.DisplayNameFor(model => model.Date)</th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <!--
-             <td>
-                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }, new { @class = "btn btn-edit" }) |
-                @Html.ActionLink("Удалить", "Delete", new { id = item.Id }, new { @class = "btn btn-delete" })
-            </td>
-            -->
-        </tr>
-    }
-</table>
+@Html.Partial("_PartialReceiptsIndex", Model)
 <div>
     @Html.ActionLink("Вернуться обратно", "Index", null, htmlAttributes: new { @class = "btn btn-back" })
 </div>
-<!--@Html.ActionLink("Добавить", "Create", null, htmlAttributes: new { @class = "btn btn-create" })-->

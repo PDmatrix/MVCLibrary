@@ -9,16 +9,20 @@ namespace Pract.Models
 {
     public class ReceiptViewModel
     {
+        [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Введите дату выдачи")]
         [Display(Name = "Дата выдачи")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? Date { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Выберите книгу")]
         [Display(Name = "Название книги")]
         public SelectList Books { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Выберите человека")]
         [Display(Name = "ФИО")]
         public SelectList Users { get; set; }
     }

@@ -11,6 +11,7 @@ using Pract.Server;
 
 namespace Pract.Controllers
 {
+    [Authorize]
     public class ReceiptsController : Controller
     {
 

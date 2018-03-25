@@ -9,12 +9,13 @@ namespace Pract.Models
     public class UserViewModel
     {
         public User Users { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Введите дату рождения")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата рождения")]
         public DateTime Birthday { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Введите возраст")]
         [Display(Name = "Возраст")]
         public int Age { get; set; }
     }

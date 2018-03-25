@@ -24,13 +24,9 @@ textarea {
     max-width: 280px;
 }
 
-.receipts-table {
-    margin-top: 30px;
+ul {
+    list-style: none;
 }
-
-    .receipts-table td, th {
-        padding-left: 10px;
-    }
 
 .btn {
     transition: 0.2s;
@@ -63,6 +59,11 @@ textarea {
     box-shadow: 0 -3px rgb(63, 47, 148) inset;
 }
 
+.btn-login {
+    background: rgb(81, 196, 207);
+    box-shadow: 0 -3px rgb(61, 147, 166) inset;
+}
+
 .btn-create:hover {
     background: rgb(53,167,110);
 }
@@ -77,4 +78,8 @@ textarea {
 
 .btn-back:hover {
     background: rgb(63, 47, 148);
+}
+
+.btn-login:hover {
+    background: rgb(61, 147, 166);
 }

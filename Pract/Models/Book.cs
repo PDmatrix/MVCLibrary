@@ -10,10 +10,12 @@ namespace Pract.Models
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Введите название книги")]
         [Display(Name = "Название книги")]
         public string Name { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Введите автора")]
         [Display(Name = "Автор")]
         public string Author { get; set; }
     }

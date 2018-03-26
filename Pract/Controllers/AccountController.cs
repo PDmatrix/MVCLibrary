@@ -12,7 +12,7 @@ using System.Security.Claims;
 
 namespace Pract.Controllers
 {
-    public class AccountsController : Controller
+    public class AccountController : Controller
     {
 
         private ApplicationAdminManager AdminManager
@@ -56,7 +56,7 @@ namespace Pract.Controllers
             if (ModelState.IsValid)
             {
                 ApplicationAdmin user = await AdminManager.FindAsync(model.AdminName, model.Password);
-                if (user == null)
+                if (user == null || user.UserName != model.AdminName)
                 {
                     ModelState.AddModelError("", "Неверный логин или пароль.");
                 }

@@ -25,7 +25,13 @@
                     <li>@Html.ActionLink("Информация о людях", "Index", "Users")</li>
                     <li>@Html.ActionLink("Информация о книгах", "Index", "Books")</li>
                 </ul>
-            </div>
+                @{
+                    if (HttpContext.Current.GetOwinContext().Authentication.User.Identity.IsAuthenticated)
+                    {
+                        @Html.ActionLink("Выйти", "Logout", "Account", null, htmlAttributes: new { @class = "btn btn-logout" })
+                    }
+                }
+            </div> 
         </div>
     </div>
     <div class="container body-content">

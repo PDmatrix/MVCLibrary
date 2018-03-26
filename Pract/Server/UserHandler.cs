@@ -10,9 +10,9 @@ using Pract.Models;
 
 namespace Pract.Server
 {
-    public class UserHandler
+    public static class UserHandler
     {
-        public static LibContext db = new LibContext();
+        private static readonly LibContext db = new LibContext();
 
         public static IEnumerable<UserViewModel> IndexUser()
         {

@@ -12,7 +12,7 @@ namespace Pract.Server
 {
     public static class BookHandler
     {
-        public static LibContext db = new LibContext();
+        private static readonly LibContext db = new LibContext();
 
         public static IEnumerable<Book> IndexBook()
         {

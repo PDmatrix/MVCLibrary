@@ -10,9 +10,9 @@ using Pract.Models;
 
 namespace Pract.Server
 {
-    public class ReceiptHandler
+    public static class ReceiptHandler
     {
-        private static LibContext db = new LibContext();
+        private static readonly LibContext db = new LibContext();
 
         public static IEnumerable<Receipt> IndexReceipt()
         {

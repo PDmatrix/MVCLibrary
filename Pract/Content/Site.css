@@ -64,6 +64,12 @@ ul {
     box-shadow: 0 -3px rgb(61, 147, 166) inset;
 }
 
+.btn-logout {
+    float: right;
+    background: rgba(115, 119, 111, 0.24);
+    margin-top: 10px;
+}
+
 .btn-create:hover {
     background: rgb(53,167,110);
 }
@@ -82,4 +88,8 @@ ul {
 
 .btn-login:hover {
     background: rgb(61, 147, 166);
+}
+
+.btn-logout:hover {
+    background: rgb(70, 70, 70);
 }

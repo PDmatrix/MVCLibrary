@@ -19,15 +19,10 @@ namespace Pract.Server
             return db.Books.ToArray();
         }
 
-        public static bool CreateBook(Book book, bool isValid)
+        public static void CreateBook(Book book)
         {
-            if(isValid)
-            {
-                db.Books.Add(book);
-                db.SaveChanges();
-                return true;
-            }
-            return false;
+            db.Books.Add(book);
+            db.SaveChanges();
         }
 
         public static Book FindBook(int? id)
@@ -35,22 +30,15 @@ namespace Pract.Server
             return db.Books.Find(id);
         }
 
-        public static bool EditBook(Book book, bool isValid)
+        public static void EditBook(Book book)
         {
-            if (isValid)
+            var local = db.Set<Book>().Local.FirstOrDefault(f => f.Id == book.Id);
+            if (local != null)
             {
-                var local = db.Set<Book>()
-                         .Local
-                         .FirstOrDefault(f => f.Id == book.Id);
-                if (local != null)
-                {
-                    db.Entry(local).State = EntityState.Detached;
-                }
-                db.Entry(book).State = EntityState.Modified;
-                db.SaveChanges();
-                return true;
+                db.Entry(local).State = EntityState.Detached;
             }
-            return false;
+            db.Entry(book).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         public static void DeleteBook(int id)

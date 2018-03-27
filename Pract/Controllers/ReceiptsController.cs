@@ -32,8 +32,9 @@ namespace Pract.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Exclude = "User, Book")] Receipt receipt)
         {
-            if (ReceiptHandler.CreateReceipt(receipt, ModelState.IsValid))
+            if (ModelState.IsValid)
             {
+                ReceiptHandler.CreateReceipt(receipt);
                 return RedirectToAction("Index");
             }
             return View(ReceiptHandler.ReceiptView(receipt));
@@ -59,8 +60,9 @@ namespace Pract.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Exclude = "User, Book")] Receipt receipt)
         {
-            if (ReceiptHandler.EditReceipt(receipt, ModelState.IsValid))
+            if (ModelState.IsValid)
             {
+                ReceiptHandler.EditReceipt(receipt);
                 return RedirectToAction("Index");
             }
             return View(ReceiptHandler.ReceiptView(receipt));
@@ -94,15 +96,6 @@ namespace Pract.Controllers
         public ActionResult Overdue()
         {
             return View(ReceiptHandler.OverdueReceipt());
-        }
-        protected override void Dispose(bool disposing)
-        {
-            LibContext db = new LibContext();
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

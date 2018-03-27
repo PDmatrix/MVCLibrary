@@ -1,16 +1,19 @@
 ﻿@model IEnumerable<Pract.Models.Receipt>
-<table class="table">
+<table class="table table-hover">
+    <thead>
     <tr>
         <th>@Html.DisplayNameFor(model => model.UserId)</th>
         <th>@Html.DisplayNameFor(model => model.BookId)</th>
         <th>@Html.DisplayNameFor(model => model.Book.Author)</th>
         <th>@Html.DisplayNameFor(model => model.Date)</th>
+        <th>@Html.DisplayNameFor(model => model.DateReturn)</th>
         <th></th>
     </tr>
+    </thead>
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr @(item.DateReturn <= DateTime.Now ? "class=overdue" : "")>
             <td>
                 @Html.DisplayFor(modelItem => item.User.Name)
             </td>
@@ -22,6 +25,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateReturn)
             </td>
             <td>
                 @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }, new { @class = "btn btn-edit" }) |

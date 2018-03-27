@@ -15,8 +15,16 @@ namespace Pract.Models
         [Display(Name = "Дата рождения")]
         public DateTime Birthday { get; set; }
 
-        [Required(ErrorMessage = "Введите возраст")]
         [Display(Name = "Возраст")]
-        public int Age { get; set; }
+        public int Age
+        {
+            get
+            {
+                return (DateTime.Now.Month < Birthday.Month ||
+                        (DateTime.Now.Month == Birthday.Month && DateTime.Now.Day < Birthday.Day))
+                    ? DateTime.Now.Year - Birthday.Year - 1
+                    : DateTime.Now.Year - Birthday.Year;
+            }
+        }
     }
 }

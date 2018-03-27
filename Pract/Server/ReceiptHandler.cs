@@ -16,8 +16,7 @@ namespace Pract.Server
 
         public static IEnumerable<Receipt> IndexReceipt()
         {
-            var list = db.Receipts.Include(r => r.Book).Include(r => r.User).ToArray();
-            return list;
+            return db.Receipts.Include(r => r.Book).Include(r => r.User).ToArray();
         }
 
         public static ReceiptViewModel ReceiptCreateView()
@@ -26,7 +25,8 @@ namespace Pract.Server
             {
                 Users = new SelectList(db.Users.ToArray(), "Id", "Name"),
                 Books = new SelectList(db.Books.ToArray(), "Id", "Name"),
-                Date = null
+                Date = null,
+                DateReturn = null
             };
             return viewModel;
         }
@@ -36,9 +36,10 @@ namespace Pract.Server
             ReceiptViewModel viewModel = new ReceiptViewModel
             {
                 Id = receipt.Id,
-                Users = new SelectList(db.Users.ToArray(), "Id", "Name", receipt.User),
-                Books = new SelectList(db.Books.ToArray(), "Id", "Name", receipt.Date),
-                Date = receipt.Date
+                Users = new SelectList(db.Users.ToArray(), "Id", "Name", receipt.User.Id),
+                Books = new SelectList(db.Books.ToArray(), "Id", "Name", receipt.Book.Id),
+                Date = receipt.Date,
+                DateReturn = receipt.DateReturn
             };
             return viewModel;
         }
@@ -53,33 +54,22 @@ namespace Pract.Server
             return db.Receipts.Include(r => r.Book).Include(r => r.User).FirstOrDefault(r => r.Id == id);
         }
 
-        public static bool CreateReceipt(Receipt receipt, bool isValid)
+        public static void CreateReceipt(Receipt receipt)
         {
-            if (isValid)
-            {
-                db.Receipts.Add(receipt);
-                db.SaveChanges();
-                return true;
-            }
-            return false;
+            db.Receipts.Add(receipt);
+            db.SaveChanges();
         }
 
-        public static bool EditReceipt(Receipt receipt, bool isValid)
+        public static void EditReceipt(Receipt receipt)
         {
-            if (isValid)
+            var local = db.Set<Receipt>().Local.FirstOrDefault(f => f.Id == receipt.Id);
+            if (local != null)
             {
-                var local = db.Set<Receipt>()
-                         .Local
-                         .FirstOrDefault(f => f.Id == receipt.Id);
-                if (local != null)
-                {
-                    db.Entry(local).State = EntityState.Detached;
-                }
-                db.Entry(receipt).State = EntityState.Modified;
-                db.SaveChanges();
-                return true;
+                db.Entry(local).State = EntityState.Detached;
             }
-            return false;
+
+            db.Entry(receipt).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         public static void DeleteReceipt(int id)
@@ -91,8 +81,7 @@ namespace Pract.Server
 
         public static IEnumerable<Receipt> OverdueReceipt()
         {
-            var list = db.Receipts.Where(r => r.Date <= DateTime.Now).Include(r => r.Book).Include(r => r.User).ToArray();
-            return list;
+            return db.Receipts.Where(r => r.DateReturn <= DateTime.Now).Include(r => r.Book).Include(r => r.User).ToArray();
         }
     }
 }

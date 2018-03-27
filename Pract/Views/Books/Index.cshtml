@@ -7,31 +7,29 @@
 
 <h2>Книги</h2>
 
-<table class="table">
+<table class="table table-hover">
+    <thead>
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Author)
-        </th>
+        <th>@Html.DisplayNameFor(model => model.Name)</th>
+        <th>@Html.DisplayNameFor(model => model.Author)</th>
         <th></th>
     </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Author)
-        </td>
-        <td>
-            @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }, new { @class = "btn btn-edit" }) |
-            @Html.ActionLink("Удалить", "Delete", new { id = item.Id }, new { @class = "btn btn-delete" })
-        </td>
-    </tr>
-}
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", "Edit", new {id = item.Id}, new {@class = "btn btn-edit"}) |
+                @Html.ActionLink("Удалить", "Delete", new {id = item.Id}, new {@class = "btn btn-delete"})
+            </td>
+        </tr>
+    }
 
 </table>
 @Html.ActionLink("Добавить", "Create", null, htmlAttributes: new { @class = "btn btn-create" })

@@ -26,6 +26,12 @@ namespace Pract.Models
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)] 
         public DateTime Date { get; set; }
 
+        [Required(ErrorMessage = "Введите дату возврата")]
+        [Display(Name = "Дата возврата")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)] 
+        public DateTime DateReturn { get; set; }
+
         public User User { get; set; }
         public Book Book { get; set; }
     }

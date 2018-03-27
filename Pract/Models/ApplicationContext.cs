@@ -9,7 +9,7 @@ namespace Pract.Models
 {
     public class ApplicationContext : IdentityDbContext<ApplicationAdmin>
     {
-        public ApplicationContext() : base("IdentityDb") { }
+        public ApplicationContext() : base("LibContext") { }
 
         public static ApplicationContext Create()
         {

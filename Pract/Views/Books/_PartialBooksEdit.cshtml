@@ -8,7 +8,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @if (Convert.ToBoolean(ViewData["HiddenId"]))
         {
-            Html.HiddenFor(model => model.Id);
+            @Html.HiddenFor(model => model.Id)
         }
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })

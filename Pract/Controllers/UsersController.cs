@@ -32,8 +32,9 @@ namespace Pract.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(User user)
         {
-            if (UserHandler.CreateUser(user, ModelState.IsValid))
+            if (ModelState.IsValid)
             {
+                UserHandler.CreateUser(user);
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -59,8 +60,9 @@ namespace Pract.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(User user)
         {
-            if (UserHandler.EditUser(user, ModelState.IsValid))
+            if (ModelState.IsValid)
             {
+                UserHandler.EditUser(user);
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -88,16 +90,6 @@ namespace Pract.Controllers
         {
             UserHandler.DeleteUser(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            LibContext db = new LibContext();
-            if (disposing)
-            {
-               db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

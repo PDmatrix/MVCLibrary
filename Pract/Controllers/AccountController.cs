@@ -74,6 +74,8 @@ namespace Pract.Controllers
             ViewBag.returnUrl = returnUrl;
             return View(model);
         }
+
+        [Authorize]
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut();

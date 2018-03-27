@@ -19,21 +19,15 @@ namespace Pract.Server
             var list = db.Users.Select(x => new UserViewModel
             {
                 Users = x,
-                Age = (DateTime.Now.Month < x.Birthday.Month || (DateTime.Now.Month == x.Birthday.Month && DateTime.Now.Day < x.Birthday.Day)) ? DateTime.Now.Year - x.Birthday.Year - 1 : DateTime.Now.Year - x.Birthday.Year,
-                Birthday = x.Birthday,
+                Birthday = x.Birthday
             }).ToArray();
             return list;
         }
 
-        public static bool CreateUser(User user, bool isValid)
+        public static void CreateUser(User user)
         {
-            if (isValid)
-            {
-                db.Users.Add(user);
-                db.SaveChanges();
-                return true;
-            }
-            return false;
+            db.Users.Add(user);
+            db.SaveChanges();
         }
 
         public static User FindUser(int? id)
@@ -41,22 +35,16 @@ namespace Pract.Server
             return db.Users.Find(id);
         }
 
-        public static bool EditUser(User user, bool isValid)
+        public static void EditUser(User user)
         {
-            if (isValid)
+            var local = db.Set<User>().Local.FirstOrDefault(f => f.Id == user.Id);
+            if (local != null)
             {
-                var local = db.Set<User>()
-                         .Local
-                         .FirstOrDefault(f => f.Id == user.Id);
-                if (local != null)
-                {
-                    db.Entry(local).State = EntityState.Detached;
-                }
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
-                return true;
+                db.Entry(local).State = EntityState.Detached;
             }
-            return false;
+
+            db.Entry(user).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         public static void DeleteUser(int id)

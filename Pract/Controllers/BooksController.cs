@@ -32,8 +32,9 @@ namespace Pract.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Book book)
         {
-            if (BookHandler.CreateBook(book, ModelState.IsValid))
+            if (ModelState.IsValid)
             {
+                BookHandler.CreateBook(book);
                 return RedirectToAction("Index");
             }
             return View(book);
@@ -59,8 +60,9 @@ namespace Pract.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Book book)
         {
-            if (BookHandler.EditBook(book, ModelState.IsValid))
+            if (ModelState.IsValid)
             {
+                BookHandler.EditBook(book);
                 return RedirectToAction("Index");
             }
             return View(book);
@@ -88,16 +90,6 @@ namespace Pract.Controllers
         {
             BookHandler.DeleteBook(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            LibContext db = new LibContext();
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

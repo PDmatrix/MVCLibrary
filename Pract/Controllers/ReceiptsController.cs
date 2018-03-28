@@ -16,9 +16,9 @@ namespace Pract.Controllers
     {
 
         // GET: Receipts
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            return View(ReceiptHandler.IndexReceipt());
+            return View(ReceiptHandler.IndexReceipt(page));
         }
 
         // GET: Receipts/Create
@@ -93,9 +93,9 @@ namespace Pract.Controllers
         }
 
         // GET: Receipts/Overdue
-        public ActionResult Overdue()
+        public ActionResult Overdue(int page = 1)
         {
-            return View(ReceiptHandler.OverdueReceipt());
+            return View(ReceiptHandler.OverdueReceipt(page));
         }
     }
 }

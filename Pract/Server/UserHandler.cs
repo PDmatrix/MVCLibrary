@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using Pract.Models;
 
 namespace Pract.Server
@@ -14,14 +15,13 @@ namespace Pract.Server
     {
         private static readonly LibContext db = new LibContext();
 
-        public static IEnumerable<UserViewModel> IndexUser()
+        public static IPagedList<UserIndexViewModel> IndexUser(int page, int pageSize = 8)
         {
-            var list = db.Users.Select(x => new UserViewModel
+            return db.Users.Select(x => new UserIndexViewModel
             {
                 Users = x,
                 Birthday = x.Birthday
-            }).ToArray();
-            return list;
+            }).ToArray().ToPagedList(page, pageSize);
         }
 
         public static void CreateUser(User user)
@@ -54,15 +54,13 @@ namespace Pract.Server
             db.SaveChanges();
         }
 
-        public static UserViewModel UserView(User user)
+        public static UserIndexViewModel UserView(User user)
         {
-            UserViewModel viewModel = new UserViewModel
+            return new UserIndexViewModel
             {
                 Users = user,
                 Birthday = user.Birthday
             };
-            return viewModel;
         }
-
     }
 }

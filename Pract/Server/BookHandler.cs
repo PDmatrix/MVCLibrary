@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using Pract.Models;
 
 namespace Pract.Server
@@ -14,9 +15,9 @@ namespace Pract.Server
     {
         private static readonly LibContext db = new LibContext();
 
-        public static IEnumerable<Book> IndexBook()
+        public static IEnumerable<Book> IndexBook(int page, int pageSize = 8)
         {
-            return db.Books.ToArray();
+            return db.Books.ToArray().ToPagedList(page, pageSize);
         }
 
         public static void CreateBook(Book book)

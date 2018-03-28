@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Pract.Models.Receipt>
+﻿@using PagedList
+@using PagedList.Mvc;
+@model IEnumerable<Pract.Models.Receipt>
+
 <table class="table table-hover">
     <thead>
     <tr>
@@ -7,6 +10,7 @@
         <th>@Html.DisplayNameFor(model => model.Book.Author)</th>
         <th>@Html.DisplayNameFor(model => model.Date)</th>
         <th>@Html.DisplayNameFor(model => model.DateReturn)</th>
+        <th>@Html.DisplayNameForModel()</th>
         <th></th>
     </tr>
     </thead>
@@ -36,3 +40,7 @@
         </tr>
     }
 </table>
+<div class="btn-group">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action(ViewContext.RouteData.Values["action"].ToString(), new { page }))
+</div>
+<br/>

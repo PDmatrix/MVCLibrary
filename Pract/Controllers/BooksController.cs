@@ -16,9 +16,9 @@ namespace Pract.Controllers
     {
 
         // GET: Books
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            return View(BookHandler.IndexBook());
+            return View(BookHandler.IndexBook(page));
         }
 
         // GET: Books/Create

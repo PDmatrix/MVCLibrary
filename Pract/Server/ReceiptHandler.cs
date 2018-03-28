@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using Pract.Models;
 
 namespace Pract.Server
@@ -14,14 +15,14 @@ namespace Pract.Server
     {
         private static readonly LibContext db = new LibContext();
 
-        public static IEnumerable<Receipt> IndexReceipt()
+        public static IPagedList<Receipt> IndexReceipt(int page, int pageSize = 8)
         {
-            return db.Receipts.Include(r => r.Book).Include(r => r.User).ToArray();
+            return db.Receipts.Include(r => r.Book).Include(r => r.User).ToArray().ToPagedList(page, pageSize);
         }
 
-        public static ReceiptViewModel ReceiptCreateView()
+        public static ReceiptEditViewModel ReceiptCreateView()
         {
-            ReceiptViewModel viewModel = new ReceiptViewModel
+            ReceiptEditViewModel viewModel = new ReceiptEditViewModel
             {
                 Users = new SelectList(db.Users.ToArray(), "Id", "Name"),
                 Books = new SelectList(db.Books.ToArray(), "Id", "Name"),
@@ -31,9 +32,9 @@ namespace Pract.Server
             return viewModel;
         }
 
-        public static ReceiptViewModel ReceiptView(Receipt receipt)
+        public static ReceiptEditViewModel ReceiptView(Receipt receipt)
         {
-            ReceiptViewModel viewModel = new ReceiptViewModel
+            ReceiptEditViewModel viewModel = new ReceiptEditViewModel
             {
                 Id = receipt.Id,
                 Users = new SelectList(db.Users.ToArray(), "Id", "Name", receipt.User.Id),
@@ -79,9 +80,9 @@ namespace Pract.Server
             db.SaveChanges();
         }
 
-        public static IEnumerable<Receipt> OverdueReceipt()
+        public static IPagedList<Receipt> OverdueReceipt(int page, int pageSize = 8)
         {
-            return db.Receipts.Where(r => r.DateReturn <= DateTime.Now).Include(r => r.Book).Include(r => r.User).ToArray();
+            return db.Receipts.Where(r => r.DateReturn <= DateTime.Now).Include(r => r.Book).Include(r => r.User).ToArray().ToPagedList(page, pageSize);
         }
     }
 }

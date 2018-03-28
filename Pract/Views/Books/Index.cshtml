@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Pract.Models.Book>
+﻿@using PagedList
+@using PagedList.Mvc
+@model IEnumerable<Pract.Models.Book>
 
 @{
     ViewBag.Title = "Список книг";
@@ -32,4 +34,8 @@
     }
 
 </table>
+<div class="btn-group">
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action(ViewContext.RouteData.Values["action"].ToString(), new { page }))
+</div>
+<br />
 @Html.ActionLink("Добавить", "Create", null, htmlAttributes: new { @class = "btn btn-create" })

@@ -16,9 +16,9 @@ namespace Pract.Controllers
     {
 
         // GET: Users
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            return View(UserHandler.IndexUser());
+            return View(UserHandler.IndexUser(page));
         }
 
         // GET: Users/Create

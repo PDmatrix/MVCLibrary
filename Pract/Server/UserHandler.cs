@@ -15,13 +15,13 @@ namespace Pract.Server
     {
         private static readonly LibContext db = new LibContext();
 
-        public static IPagedList<UserIndexViewModel> IndexUser(int page, int pageSize = 8)
+        public static IPagedList<UserIndexViewModel> IndexUser(int page)
         {
             return db.Users.Select(x => new UserIndexViewModel
             {
                 Users = x,
                 Birthday = x.Birthday
-            }).ToArray().ToPagedList(page, pageSize);
+            }).ToArray().ToPagedList(page, Convert.ToInt32(Properties.Resources.PageSize));
         }
 
         public static void CreateUser(User user)

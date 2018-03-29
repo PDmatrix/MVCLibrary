@@ -15,9 +15,9 @@ namespace Pract.Server
     {
         private static readonly LibContext db = new LibContext();
 
-        public static IEnumerable<Book> IndexBook(int page, int pageSize = 8)
+        public static IEnumerable<Book> IndexBook(int page)
         {
-            return db.Books.ToArray().ToPagedList(page, pageSize);
+            return db.Books.ToArray().ToPagedList(page, Convert.ToInt32(Properties.Resources.PageSize));
         }
 
         public static void CreateBook(Book book)

@@ -15,9 +15,9 @@ namespace Pract.Server
     {
         private static readonly LibContext db = new LibContext();
 
-        public static IPagedList<Receipt> IndexReceipt(int page, int pageSize = 8)
+        public static IPagedList<Receipt> IndexReceipt(int page)
         {
-            return db.Receipts.Include(r => r.Book).Include(r => r.User).ToArray().ToPagedList(page, pageSize);
+            return db.Receipts.Include(r => r.Book).Include(r => r.User).ToArray().ToPagedList(page, Convert.ToInt32(Properties.Resources.ResourceManager.GetString("PageSize")));
         }
 
         public static ReceiptEditViewModel ReceiptCreateView()
@@ -80,9 +80,10 @@ namespace Pract.Server
             db.SaveChanges();
         }
 
-        public static IPagedList<Receipt> OverdueReceipt(int page, int pageSize = 8)
+        public static IPagedList<Receipt> OverdueReceipt(int page)
         {
-            return db.Receipts.Where(r => r.DateReturn <= DateTime.Now).Include(r => r.Book).Include(r => r.User).ToArray().ToPagedList(page, pageSize);
+            return db.Receipts.Where(r => r.DateReturn <= DateTime.Now).Include(r => r.Book).Include(r => r.User).ToArray()
+                .ToPagedList(page, Convert.ToInt32(Properties.Resources.PageSize));
         }
     }
 }

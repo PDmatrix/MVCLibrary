@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using PagedList;
 using Pract.Models;
 
 namespace Pract.Server
@@ -14,10 +13,19 @@ namespace Pract.Server
     public static class ReceiptHandler
     {
         private static readonly LibContext db = new LibContext();
+        private static readonly int PageSize = Convert.ToInt32(Properties.Resources.PageSize);
 
-        public static IPagedList<Receipt> IndexReceipt(int page)
+
+        private static ReceiptPagingViewModel PagingIndex(IQueryable<Receipt> receipts, int page)
         {
-            return db.Receipts.Include(r => r.Book).Include(r => r.User).ToArray().ToPagedList(page, Convert.ToInt32(Properties.Resources.ResourceManager.GetString("PageSize")));
+            IEnumerable<Receipt> receiptsPerPages= receipts.OrderBy(r => r.Id).Skip((page - 1) * PageSize).Take(PageSize);
+            PageInfo pageInfo = new PageInfo { PageNumber=page, TotalItems= receipts.Count()};
+            return new ReceiptPagingViewModel { PageInfo = pageInfo, Receipts = receiptsPerPages };
+        }
+
+        public static ReceiptPagingViewModel IndexReceipt(int page)
+        {
+            return PagingIndex(db.Receipts.Include(r => r.Book).Include(r => r.User), page);
         }
 
         public static ReceiptEditViewModel ReceiptCreateView()
@@ -80,10 +88,9 @@ namespace Pract.Server
             db.SaveChanges();
         }
 
-        public static IPagedList<Receipt> OverdueReceipt(int page)
+        public static ReceiptPagingViewModel OverdueReceipt(int page)
         {
-            return db.Receipts.Where(r => r.DateReturn <= DateTime.Now).Include(r => r.Book).Include(r => r.User).ToArray()
-                .ToPagedList(page, Convert.ToInt32(Properties.Resources.PageSize));
+            return PagingIndex( db.Receipts.Where(r => r.DateReturn <= DateTime.Now).Include(r => r.Book).Include(r => r.User), page);
         }
     }
 }

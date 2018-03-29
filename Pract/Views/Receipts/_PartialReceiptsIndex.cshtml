@@ -1,20 +1,20 @@
-﻿@using PagedList
-@using PagedList.Mvc;
-@model IEnumerable<Pract.Models.Receipt>
+﻿@using System.Collections
+@using Pract.Helpers
+@model Pract.Models.ReceiptPagingViewModel
 
 <table class="table table-hover">
     <thead>
     <tr>
-        <th>@Html.DisplayNameFor(model => model.UserId)</th>
-        <th>@Html.DisplayNameFor(model => model.BookId)</th>
-        <th>@Html.DisplayNameFor(model => model.Book.Author)</th>
-        <th>@Html.DisplayNameFor(model => model.Date)</th>
-        <th>@Html.DisplayNameFor(model => model.DateReturn)</th>
+        <th>@Html.DisplayNameFor(model => model.Receipts.FirstOrDefault().UserId)</th>
+        <th>@Html.DisplayNameFor(model => model.Receipts.FirstOrDefault().BookId)</th>
+        <th>@Html.DisplayNameFor(model => model.Receipts.FirstOrDefault().Book.Author)</th>
+        <th>@Html.DisplayNameFor(model => model.Receipts.FirstOrDefault().Date)</th>
+        <th>@Html.DisplayNameFor(model => model.Receipts.FirstOrDefault().DateReturn)</th>
         <th></th>
     </tr>
     </thead>
 
-    @foreach (var item in Model)
+    @foreach (var item in Model.Receipts)
     {
         <tr @(item.DateReturn <= DateTime.Now ? "class=overdue" : "")>
             <td>
@@ -40,6 +40,7 @@
     }
 </table>
 <div class="btn-group">
-    @Html.PagedListPager((IPagedList)Model, page => Url.Action(ViewContext.RouteData.Values["action"].ToString(), new { page }))
+    @Html.PageLinks(Model.PageInfo, x => Url.Action(ViewContext.RouteData.Values["action"].ToString(), new { page = x }))
 </div>
+<br/>
 <br/>

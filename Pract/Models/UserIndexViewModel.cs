@@ -10,7 +10,6 @@ namespace Pract.Models
     {
         public User Users { get; set; }
 
-        [Required(ErrorMessage = "Введите дату рождения")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата рождения")]
         public DateTime Birthday { get; set; }

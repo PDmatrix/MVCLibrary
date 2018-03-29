@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using PagedList;
 using Pract.Models;
 
 namespace Pract.Server
@@ -14,10 +13,18 @@ namespace Pract.Server
     public static class BookHandler
     {
         private static readonly LibContext db = new LibContext();
+        private static readonly int PageSize = Convert.ToInt32(Properties.Resources.PageSize);
 
-        public static IEnumerable<Book> IndexBook(int page)
+        private static BookPagingViewModel PagingIndex(IQueryable<Book> books, int page)
         {
-            return db.Books.ToArray().ToPagedList(page, Convert.ToInt32(Properties.Resources.PageSize));
+            IEnumerable<Book> booksPerPages= books.OrderBy(r => r.Id).Skip((page - 1) * PageSize).Take(PageSize);
+            PageInfo pageInfo = new PageInfo { PageNumber=page, TotalItems= books.Count()};
+            return new BookPagingViewModel { PageInfo = pageInfo, Books = booksPerPages };
+        }
+
+        public static BookPagingViewModel IndexBook(int page)
+        {
+            return PagingIndex(db.Books, page);
         }
 
         public static void CreateBook(Book book)

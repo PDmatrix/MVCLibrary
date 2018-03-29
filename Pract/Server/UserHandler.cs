@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using PagedList;
 using Pract.Models;
 
 namespace Pract.Server
@@ -14,14 +13,22 @@ namespace Pract.Server
     public static class UserHandler
     {
         private static readonly LibContext db = new LibContext();
+        private static readonly int PageSize = Convert.ToInt32(Properties.Resources.PageSize);
 
-        public static IPagedList<UserIndexViewModel> IndexUser(int page)
+        private static UserPagingViewModel PagingIndex(IQueryable<UserIndexViewModel> users, int page)
         {
-            return db.Users.Select(x => new UserIndexViewModel
+            IEnumerable<UserIndexViewModel> usersPerPages= users.OrderBy(r => r.Users.Id).Skip((page - 1) * PageSize).Take(PageSize);
+            PageInfo pageInfo = new PageInfo { PageNumber=page, TotalItems= users.Count()};
+            return new UserPagingViewModel { PageInfo = pageInfo, UserViewModel = usersPerPages };
+        }
+
+        public static UserPagingViewModel IndexUser(int page)
+        {
+            return PagingIndex(db.Users.Select(x => new UserIndexViewModel
             {
                 Users = x,
                 Birthday = x.Birthday
-            }).ToArray().ToPagedList(page, Convert.ToInt32(Properties.Resources.PageSize));
+            }), page);
         }
 
         public static void CreateUser(User user)

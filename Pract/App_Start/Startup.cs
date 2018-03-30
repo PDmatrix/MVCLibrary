@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
-using Owin;
-using Pract.Models;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.AspNet.Identity;
+using Owin;
+using Pract;
+using Pract.Models;
 
-[assembly: OwinStartup(typeof(Pract.App_Start.Startup))]
+[assembly: OwinStartup(typeof(Startup))]
 
-namespace Pract.App_Start
+namespace Pract
 {
     public class Startup
     {

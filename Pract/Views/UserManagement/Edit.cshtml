@@ -1,11 +1,11 @@
 ﻿@model Pract.Models.UserManagementViewModel
 
 @{
-    ViewBag.Title = "Редактировать роль";
+    ViewBag.Title = "Редактировать пользователя";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Редактировать роль</h2>
+<h2>Редактировать пользователя</h2>
 
 @Html.Partial("_PartialUserManagementEdit", Model, new ViewDataDictionary(this.ViewData) {
     { "Value", "Сохранить" },

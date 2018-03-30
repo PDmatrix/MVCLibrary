@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Pract.Models.UserManagementViewModel>
+
+@{
+    ViewBag.Title = "Список ролей";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Список ролей</h2>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }, new { @class = "btn btn-edit" }) |
+                @Html.ActionLink("Удалить", "Delete", new { id = item.Id }, new { @class = "btn btn-delete" })
+            </td>
+        </tr>
+    }
+</table>
+
+<div>
+    @Html.ActionLink("Добавить", "Create", null, htmlAttributes: new { @class = "btn btn-create" })
+</div>
+<br />
+<div>
+    @Html.ActionLink("Вернуться обратно", "Index", "Administration", null, htmlAttributes: new { @class = "btn btn-back" })
+</div>

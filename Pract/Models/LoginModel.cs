@@ -10,7 +10,7 @@ namespace Pract.Models
     {
         [Required(ErrorMessage = "Введите имя пользователя")]
         [Display(Name = "Имя пользователя")]
-        public string AdminName { get; set; }
+        public string Username { get; set; }
 
         [Required(ErrorMessage = "Введите пароль")]
         [Display(Name = "Пароль")]

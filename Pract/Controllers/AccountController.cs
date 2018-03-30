@@ -12,14 +12,15 @@ using System.Security.Claims;
 
 namespace Pract.Controllers
 {
+    [AllowAnonymous]
     public class AccountController : Controller
     {
-
-        private ApplicationAdminManager AdminManager
+        
+        private ApplicationUserManager UserManager
         {
             get
             {
-                return HttpContext.GetOwinContext().GetUserManager<ApplicationAdminManager>();
+                return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
         }
 
@@ -31,20 +32,13 @@ namespace Pract.Controllers
             }
         }
 
-        public async Task<ActionResult> Login(string returnUrl)
+        public ActionResult Login(string returnUrl)
         {
             if(AuthenticationManager.User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Receipts");
             }
             ViewBag.returnUrl = returnUrl;
-            ApplicationAdmin lastAdmin = await AdminManager.FindByNameAsync("admin");
-            IdentityResult deleteResult = await AdminManager.DeleteAsync(lastAdmin);
-            if(deleteResult.Succeeded)
-            {
-                ApplicationAdmin user = new ApplicationAdmin { AdminName = "admin", UserName = "admin" };
-                IdentityResult result = await AdminManager.CreateAsync(user, "admin1");
-            }
             return View();
         }
 
@@ -55,14 +49,14 @@ namespace Pract.Controllers
 
             if (ModelState.IsValid)
             {
-                ApplicationAdmin user = await AdminManager.FindAsync(model.AdminName, model.Password);
-                if (user == null || user.UserName != model.AdminName)
+                ApplicationUser user = await UserManager.FindAsync(model.Username, model.Password);
+                if (user == null || user.UserName != model.Username)
                 {
                     ModelState.AddModelError("", "Неверный логин или пароль.");
                 }
                 else
                 {
-                    ClaimsIdentity claim = await AdminManager.CreateIdentityAsync(user,
+                    ClaimsIdentity claim = await UserManager.CreateIdentityAsync(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);
                     AuthenticationManager.SignOut();
                     AuthenticationManager.SignIn(claim);

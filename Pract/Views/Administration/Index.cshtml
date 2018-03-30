@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "Управление аккаунтами";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Управление аккаунтами</h2>
+
+@Html.ActionLink("Список пользователей", "Index", "UserManagement")
+<br/>
+@Html.ActionLink("Список ролей", "Index", "RoleManagement")

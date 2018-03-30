@@ -22,6 +22,7 @@ namespace Pract.Controllers
         }
 
         // GET: Books/Create
+        [Authorize(Roles = "Admin, Manager")]
         public ActionResult Create()
         {
             return View();
@@ -30,6 +31,7 @@ namespace Pract.Controllers
         // POST: Books/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Manager")]
         public ActionResult Create(Book book)
         {
             if (ModelState.IsValid)
@@ -41,6 +43,7 @@ namespace Pract.Controllers
         }
 
         // GET: Books/Edit/5
+        [Authorize(Roles = "Admin, Manager")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -58,6 +61,7 @@ namespace Pract.Controllers
         // POST: Books/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Manager")]
         public ActionResult Edit(Book book)
         {
             if (ModelState.IsValid)
@@ -69,6 +73,7 @@ namespace Pract.Controllers
         }
 
         // GET: Books/Delete/5
+        [Authorize(Roles = "Admin, Manager")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -86,6 +91,7 @@ namespace Pract.Controllers
         // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Manager")]
         public ActionResult DeleteConfirmed(int id)
         {
             BookHandler.DeleteBook(id);

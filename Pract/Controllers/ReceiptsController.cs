@@ -22,6 +22,7 @@ namespace Pract.Controllers
         }
 
         // GET: Receipts/Create
+        [Authorize(Roles = "Admin, Manager")]
         public ActionResult Create()
         {
             return View(ReceiptHandler.ReceiptCreateView());
@@ -30,6 +31,7 @@ namespace Pract.Controllers
         // POST: Receipts/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Manager")]
         public ActionResult Create([Bind(Exclude = "User, Book, PageInfo")] Receipt receipt)
         {
             if (ModelState.IsValid)
@@ -41,6 +43,7 @@ namespace Pract.Controllers
         }
 
         // GET: Receipts/Edit/5
+        [Authorize(Roles = "Admin, Manager")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -58,6 +61,7 @@ namespace Pract.Controllers
         // POST: Receipts/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Manager")]
         public ActionResult Edit([Bind(Exclude = "User, Book, PageInfo")] Receipt receipt)
         {
             if (ModelState.IsValid)
@@ -69,6 +73,7 @@ namespace Pract.Controllers
         }
 
         // GET: Receipts/Delete/5
+        [Authorize(Roles = "Admin, Manager")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -86,6 +91,7 @@ namespace Pract.Controllers
         // POST: Receipts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Manager")]
         public ActionResult DeleteConfirmed(int id)
         {
             ReceiptHandler.DeleteReceipt(id);

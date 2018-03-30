@@ -1,0 +1,33 @@
+﻿@model Pract.Models.RoleManagementViewModel
+
+@{
+    ViewBag.Title = "Удалить роль";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Удалить роль</h2>
+
+<h3>Вы действительно хотите удалить роль?</h3>
+<div>
+    <hr />
+    @Html.HiddenFor(model => model.Id)
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-delete" /> |
+            @Html.ActionLink("Вернуться обратно", "Index", null, htmlAttributes: new { @class = "btn btn-back" })
+        </div>
+    }
+</div>

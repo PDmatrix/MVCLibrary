@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Pract.Models
 {
-    public class ApplicationContext : IdentityDbContext<ApplicationAdmin>
+    public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationContext() : base("LibContext") { }
 

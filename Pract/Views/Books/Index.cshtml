@@ -25,10 +25,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Author)
             </td>
-            <td>
-                @Html.ActionLink("Редактировать", "Edit", new {id = item.Id}, new {@class = "btn btn-edit"}) |
-                @Html.ActionLink("Удалить", "Delete", new {id = item.Id}, new {@class = "btn btn-delete"})
-            </td>
+            @if (!HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("User"))
+            {
+                <td>
+                    @Html.ActionLink("Редактировать", "Edit", new {id = item.Id}, new {@class = "btn btn-edit"}) |
+                    @Html.ActionLink("Удалить", "Delete", new {id = item.Id}, new {@class = "btn btn-delete"})
+                </td>
+            } 
         </tr>
     }
 
@@ -37,5 +40,8 @@
     @Html.PageLinks(Model.PageInfo, x => Url.Action(ViewContext.RouteData.Values["action"].ToString(), new { page = x }))
 </div>
 <br />
-<br/>
-@Html.ActionLink("Добавить", "Create", null, htmlAttributes: new { @class = "btn btn-create" })
+<br />
+@if (!HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("User"))
+{
+    @Html.ActionLink("Добавить", "Create", null, htmlAttributes: new { @class = "btn btn-create" })
+}

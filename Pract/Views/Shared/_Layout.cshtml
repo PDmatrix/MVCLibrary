@@ -25,11 +25,18 @@
                     <li>@Html.ActionLink("Выдача книг", "Index", "Receipts")</li>
                     <li>@Html.ActionLink("Информация о людях", "Index", "Users")</li>
                     <li>@Html.ActionLink("Информация о книгах", "Index", "Books")</li>
+                    @if (HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("Admin"))
+                    {
+                        <li>@Html.ActionLink("Управление аккаунтами", "Index", "Administration")</li>
+                    }
+                    
                 </ul>
                 @{
                     if (HttpContext.Current.GetOwinContext().Authentication.User.Identity.IsAuthenticated)
                     {
                         @Html.ActionLink("Выйти", "Logout", "Account", null, htmlAttributes: new { @class = "btn btn-logout" })
+                        <span class="username">@HttpContext.Current.GetOwinContext().Authentication.User.Identity.Name</span>
+                                                                                             
                     }
                 }
             </div> 

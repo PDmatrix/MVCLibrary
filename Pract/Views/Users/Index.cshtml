@@ -28,10 +28,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Birthday)
             </td>
-            <td>
-                @Html.ActionLink("Редактировать", "Edit", new {id = item.Users.Id}, new {@class = "btn btn-edit"}) |
-                @Html.ActionLink("Удалить", "Delete", new {id = item.Users.Id}, new {@class = "btn btn-delete"})
-            </td>
+            @if (!HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("User"))
+            {
+                <td>
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.Users.Id }, new { @class = "btn btn-edit" }) |
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.Users.Id }, new { @class = "btn btn-delete" })
+                </td>
+            } 
         </tr>
     }
 </table>
@@ -40,4 +43,7 @@
 </div>
 <br />
 <br />
-@Html.ActionLink("Добавить", "Create", null, htmlAttributes: new { @class = "btn btn-create" })
+@if (!HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("User"))
+{
+    @Html.ActionLink("Добавить", "Create", null, htmlAttributes: new { @class = "btn btn-create" })
+}

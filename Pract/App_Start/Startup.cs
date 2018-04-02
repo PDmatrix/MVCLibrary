@@ -15,9 +15,10 @@ namespace Pract
         {
             // настраиваем контекст и менеджер
             app.CreatePerOwinContext<ApplicationContext>(ApplicationContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
 
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
+            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            
 
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions

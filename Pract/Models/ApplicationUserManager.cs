@@ -13,15 +13,6 @@ namespace Pract.Models
 {
     public sealed class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        private void CreateAdmin()
-        {
-            var admin = FindByNameAsync("admin");
-            if (admin == null)
-            {
-                var newAdmin = new ApplicationUser { UserName = "admin" };
-                var result = CreateAsync(newAdmin, "123456");
-            }          
-        }
         private ApplicationUserManager(IUserStore<ApplicationUser> store)
                 : base(store)
         {
@@ -38,7 +29,12 @@ namespace Pract.Models
                 var newAdmin = new ApplicationUser { UserName = "admin" };
                 var result = manager.Create(newAdmin, "123456");
                 manager.AddToRole(newAdmin.Id, "Admin");
-            }    
+            }
+            else if(!manager.IsInRole(admin.Id, "Admin") || manager.GetRoles(admin.Id).Count > 1)
+            {
+                manager.RemoveFromRoles(admin.Id, manager.GetRoles(admin.Id).ToArray());
+                manager.AddToRole(admin.Id, "Admin");
+            }
             return manager;
         }
     }

@@ -11,14 +11,21 @@ namespace Pract.Models
 {
     public class ApplicationRoleManager : RoleManager<ApplicationRole>
     {
-        public ApplicationRoleManager(RoleStore<ApplicationRole> store)
+        private ApplicationRoleManager(RoleStore<ApplicationRole> store)
             : base(store) 
         {}
         public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options,
-            IOwinContext context) 
+            IOwinContext context)
         {
-            return new ApplicationRoleManager(new
+            var manager = new ApplicationRoleManager(new
                 RoleStore<ApplicationRole>(context.Get<ApplicationContext>()));
+            var role = manager.FindByName("Admin");
+            if (role == null)
+            {
+                var newRole = new ApplicationRole {Name = "Admin"};
+                var result = manager.Create(newRole);
+            }
+            return manager;
         }
     }
 }

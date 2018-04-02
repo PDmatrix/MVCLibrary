@@ -32,7 +32,6 @@ namespace Pract.Controllers
         // GET: Role
         public ActionResult Index()
         {
-            //return View(RoleManager.Roles.ToArray());
             var users = UserManager.Users.AsEnumerable().ToArray();
             return View(users.Select(x => new UserManagementViewModel
             {
@@ -62,7 +61,7 @@ namespace Pract.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Что-то пошло не так");
+                    ModelState.AddModelError("", @"Что-то пошло не так");
                 }
             }
             return View(model);
@@ -89,6 +88,7 @@ namespace Pract.Controllers
                 {
                     user.UserName = model.Username;
                     user.PasswordHash = UserManager.PasswordHasher.HashPassword(model.Password);
+                    await UserManager.RemoveFromRolesAsync(user.Id, UserManager.GetRoles(user.Id).ToArray());
                     await UserManager.AddToRoleAsync(user.Id, model.Role);
                     IdentityResult result = await UserManager.UpdateAsync(user);
                     if (result.Succeeded)
@@ -97,7 +97,7 @@ namespace Pract.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Что-то пошло не так");
+                        ModelState.AddModelError("", @"Что-то пошло не так");
                     }
                 }
             }

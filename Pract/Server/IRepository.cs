@@ -7,7 +7,7 @@ using Pract.Models;
 
 namespace Pract.Server
 {
-    internal interface IRepository<T> : IDisposable where T : class 
+    internal interface IRepository<T> where T : class 
     {
         IEnumerable<T>  GetList(int page);
         T Find(int? id);

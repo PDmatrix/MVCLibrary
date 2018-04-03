@@ -14,25 +14,24 @@ namespace Pract.Controllers
     [Authorize]
     public class ReceiptsController : Controller
     {
-
-        private readonly ReceiptRepository _db;
+        private readonly UnitOfWork _unitOfWork;
 
         public ReceiptsController()
         {
-            _db = new ReceiptRepository(new LibContext());
+            _unitOfWork = new UnitOfWork();
         }
 
         // GET: Receipts
         public ActionResult Index(int page = 1)
         {
-            return View(_db.PageReceipt(page > 0 ? page : 1));
+            return View(_unitOfWork.Receipts.PageReceipt(page > 0 ? page : 1));
         }
 
         // GET: Receipts/Create
         [Authorize(Roles = "Admin, Manager")]
         public ActionResult Create()
         {
-            return View(_db.ReceiptCreateView());
+            return View(_unitOfWork.Receipts.ReceiptCreateView());
         }
 
         // POST: Receipts/Create
@@ -43,10 +42,10 @@ namespace Pract.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Create(receipt);
+                _unitOfWork.Receipts.Create(receipt);
                 return RedirectToAction("Index");
             }
-            return View(_db.ReceiptView(receipt));
+            return View(_unitOfWork.Receipts.ReceiptView(receipt));
         }
 
         // GET: Receipts/Edit/5
@@ -57,12 +56,12 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Receipt receipt = _db.Find(id);
+            Receipt receipt = _unitOfWork.Receipts.Find(id);
             if (receipt == null)
             {
                 return HttpNotFound();
             }
-            return View(_db.ReceiptView(receipt));
+            return View(_unitOfWork.Receipts.ReceiptView(receipt));
         }
 
         // POST: Receipts/Edit/5
@@ -73,10 +72,10 @@ namespace Pract.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Update(receipt);
+                _unitOfWork.Receipts.Update(receipt);
                 return RedirectToAction("Index");
             }
-            return View(_db.ReceiptView(receipt));
+            return View(_unitOfWork.Receipts.ReceiptView(receipt));
         }
 
         // GET: Receipts/Delete/5
@@ -87,7 +86,7 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Receipt receipt =_db.FindReceiptInclude(id);
+            Receipt receipt =_unitOfWork.Receipts.FindReceiptInclude(id);
             if (receipt == null)
             {
                 return HttpNotFound();
@@ -101,14 +100,14 @@ namespace Pract.Controllers
         [Authorize(Roles = "Admin, Manager")]
         public ActionResult DeleteConfirmed(int id)
         {
-            _db.Delete(id);
+            _unitOfWork.Receipts.Delete(id);
             return RedirectToAction("Index");
         }
 
         // GET: Receipts/Overdue
         public ActionResult Overdue(int page = 1)
         {
-            return View(_db.OverdueReceipt(page > 0 ? page : 1));
+            return View(_unitOfWork.Receipts.OverdueReceipt(page > 0 ? page : 1));
         }
     }
 }

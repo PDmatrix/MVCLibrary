@@ -23,7 +23,7 @@ namespace Pract.Server
 
         private readonly LibContext _db;
  
-        public ReceiptRepository(LibContext db) : base(db)
+        public ReceiptRepository(DbContext db) : base(db)
         {
             _db = new LibContext();
         }

@@ -14,18 +14,18 @@ namespace Pract.Controllers
     [Authorize]
     public class UsersController : Controller
     {
-        private readonly UserRepository _db;
+        private readonly UnitOfWork _unitOfWork;
 
         public UsersController()
         {
-            _db = new UserRepository(new LibContext());
+            _unitOfWork = new UnitOfWork();
         }
 
         // GET: Users
         public ActionResult Index(int page = 1)
         {
 
-            return View(_db.PageUser(page > 0 ? page : 1));
+            return View(_unitOfWork.Users.PageUser(page > 0 ? page : 1));
         }
 
         // GET: Users/Create
@@ -43,7 +43,7 @@ namespace Pract.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Create(user);
+                _unitOfWork.Users.Create(user);
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -57,7 +57,7 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = _db.Find(id);
+            User user = _unitOfWork.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -73,7 +73,7 @@ namespace Pract.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Update(user);
+                _unitOfWork.Users.Update(user);
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -87,12 +87,12 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = _db.Find(id);
+            User user = _unitOfWork.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(_db.FindViewModel(user.Id));
+            return View(_unitOfWork.Users.FindViewModel(user.Id));
         }
 
         // POST: Users/Delete/5
@@ -101,7 +101,7 @@ namespace Pract.Controllers
         [Authorize(Roles = "Admin, Manager")]
         public ActionResult DeleteConfirmed(int id)
         {
-            _db.Delete(id);
+            _unitOfWork.Users.Delete(id);
             return RedirectToAction("Index");
         }
     }

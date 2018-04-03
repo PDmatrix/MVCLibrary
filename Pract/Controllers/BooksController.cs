@@ -14,17 +14,17 @@ namespace Pract.Controllers
     [Authorize]
     public class BooksController : Controller
     {
-        private readonly BookRepository _db;
+        private readonly UnitOfWork _unitOfWork;
 
         public BooksController()
         {
-            _db = new BookRepository(new LibContext());
+            _unitOfWork = new UnitOfWork();
         }
 
         // GET: Books
         public ActionResult Index(int page = 1)
         {
-            return View(_db.PageBook(page > 0 ? page : 1));
+            return View(_unitOfWork.Books.PageBook(page > 0 ? page : 1));
         }
 
         // GET: Books/Create
@@ -42,7 +42,7 @@ namespace Pract.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Create(book);
+                _unitOfWork.Books.Create(book);
                 return RedirectToAction("Index");
             }
             return View(book);
@@ -56,7 +56,7 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = _db.Find(id);
+            Book book = _unitOfWork.Books.Find(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -72,7 +72,7 @@ namespace Pract.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Update(book);
+                _unitOfWork.Books.Update(book);
                 return RedirectToAction("Index");
             }
             return View(book);
@@ -86,7 +86,7 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = _db.Find(id);
+            Book book = _unitOfWork.Books.Find(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -100,7 +100,7 @@ namespace Pract.Controllers
         [Authorize(Roles = "Admin, Manager")]
         public ActionResult DeleteConfirmed(int? id)
         {
-            _db.Delete(id);
+            _unitOfWork.Books.Delete(id);
             return RedirectToAction("Index");
         }
     }

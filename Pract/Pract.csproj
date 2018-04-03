@@ -230,6 +230,7 @@
     <Compile Include="Server\IRepository.cs" />
     <Compile Include="Server\ReceiptRepository.cs" />
     <Compile Include="Server\ResourceClass.cs" />
+    <Compile Include="Server\UnitOfWork.cs" />
     <Compile Include="Server\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>

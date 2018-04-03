@@ -22,7 +22,7 @@ namespace Pract.Server
 
         private readonly LibContext _db;
  
-        public UserRepository(LibContext db) : base(db)
+        public UserRepository(DbContext db) : base(db)
         {
             _db = new LibContext();
         }

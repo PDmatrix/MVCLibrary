@@ -9,11 +9,10 @@ namespace Pract.Server
 {
     public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
+        readonly DbContext _context;
+        readonly DbSet<TEntity> _dbSet;
 
-        DbContext _context;
-        DbSet<TEntity> _dbSet;
- 
-        public GenericRepository(DbContext context)
+        protected GenericRepository(DbContext context)
         {
             _context = context;
             _dbSet = context.Set<TEntity>();
@@ -47,26 +46,6 @@ namespace Pract.Server
                 _dbSet.Remove(item);
                 _context.SaveChanges();
             }
-        }
-
-        private bool _disposed = false;
-
-        private void Dispose(bool disposing)
-        {
-            if(!this._disposed)
-            {
-                if(disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-            this._disposed = true;
-        }
- 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
     }

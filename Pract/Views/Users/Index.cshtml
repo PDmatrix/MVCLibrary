@@ -3,6 +3,7 @@
 
 @{
     ViewBag.Title = "Информация о людях";
+    ViewBag.IsUser = HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("User");
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -28,7 +29,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Birthday)
             </td>
-            @if (!HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("User"))
+            @if (!ViewBag.IsUser)
             {
                 <td>
                     @Html.ActionLink("Редактировать", "Edit", new { id = item.Users.Id }, new { @class = "btn btn-edit" }) |
@@ -43,7 +44,7 @@
 </div>
 <br />
 <br />
-@if (!HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("User"))
+@if (!ViewBag.IsUser)
 {
     @Html.ActionLink("Добавить", "Create", null, htmlAttributes: new { @class = "btn btn-create" })
 }

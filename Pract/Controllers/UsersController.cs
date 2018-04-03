@@ -14,13 +14,18 @@ namespace Pract.Controllers
     [Authorize]
     public class UsersController : Controller
     {
+        private readonly UserRepository _db;
+
+        public UsersController()
+        {
+            _db = new UserRepository(new LibContext());
+        }
 
         // GET: Users
-        public ActionResult Index(int? page)
+        public ActionResult Index(int page = 1)
         {
-            int pageInd = page ?? 1;
-            
-            return View(UserHandler.IndexUser(pageInd));
+
+            return View(_db.PageUser(page > 0 ? page : 1));
         }
 
         // GET: Users/Create
@@ -38,7 +43,7 @@ namespace Pract.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserHandler.CreateUser(user);
+                _db.Create(user);
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -52,7 +57,7 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = UserHandler.FindUser(id);
+            User user = _db.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -68,7 +73,7 @@ namespace Pract.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserHandler.EditUser(user);
+                _db.Update(user);
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -82,12 +87,12 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = UserHandler.FindUser(id);
+            User user = _db.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(UserHandler.UserView(user));
+            return View(_db.FindViewModel(user.Id));
         }
 
         // POST: Users/Delete/5
@@ -96,7 +101,7 @@ namespace Pract.Controllers
         [Authorize(Roles = "Admin, Manager")]
         public ActionResult DeleteConfirmed(int id)
         {
-            UserHandler.DeleteUser(id);
+            _db.Delete(id);
             return RedirectToAction("Index");
         }
     }

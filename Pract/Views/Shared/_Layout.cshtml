@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewBag.IsAdmin = HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("Admin");
+    ViewBag.IsAuthenticated = HttpContext.Current.GetOwinContext().Authentication.User.Identity.IsAuthenticated;
+    ViewBag.Name = @HttpContext.Current.GetOwinContext().Authentication.User.Identity.Name;
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -25,17 +30,17 @@
                     <li>@Html.ActionLink("Выдача книг", "Index", "Receipts")</li>
                     <li>@Html.ActionLink("Информация о людях", "Index", "Users")</li>
                     <li>@Html.ActionLink("Информация о книгах", "Index", "Books")</li>
-                    @if (HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("Admin"))
+                    @if (ViewBag.IsAdmin)
                     {
                         <li>@Html.ActionLink("Управление аккаунтами", "Index", "Administration")</li>
                     }
                     
                 </ul>
                 @{
-                    if (HttpContext.Current.GetOwinContext().Authentication.User.Identity.IsAuthenticated)
+                    if (ViewBag.IsAuthenticated)
                     {
                         @Html.ActionLink("Выйти", "Logout", "Account", null, htmlAttributes: new { @class = "btn btn-logout" })
-                        <span class="username">@HttpContext.Current.GetOwinContext().Authentication.User.Identity.Name</span>
+                        <span class="username">@ViewBag.Name</span>
                                                                                              
                     }
                 }

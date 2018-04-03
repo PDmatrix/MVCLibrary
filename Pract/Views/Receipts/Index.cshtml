@@ -3,11 +3,12 @@
 @{
     ViewBag.Title = "Выдача книг";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.IsUser = HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("User");
 }
 
 <h2>Выдача книг</h2>
 @Html.Partial("_PartialReceiptsIndex", Model)
-@if (!HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("User"))
+@if (!ViewBag.IsUser)
 {
     @Html.ActionLink("Добавить", "Create", null, htmlAttributes: new { @class = "btn btn-create" })
 }

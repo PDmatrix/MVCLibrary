@@ -3,6 +3,7 @@
 
 @{
     ViewBag.Title = "Список книг";
+    ViewBag.IsUser = HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("User");
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -25,7 +26,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Author)
             </td>
-            @if (!HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("User"))
+            @if (!ViewBag.IsUser)
             {
                 <td>
                     @Html.ActionLink("Редактировать", "Edit", new {id = item.Id}, new {@class = "btn btn-edit"}) |
@@ -41,7 +42,7 @@
 </div>
 <br />
 <br />
-@if (!HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("User"))
+@if (!ViewBag.IsUser)
 {
     @Html.ActionLink("Добавить", "Create", null, htmlAttributes: new { @class = "btn btn-create" })
 }

@@ -32,7 +32,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DateReturn)
             </td>
-            @if (!HttpContext.Current.GetOwinContext().Authentication.User.IsInRole("User"))
+            @if (!ViewBag.IsUser)
             {
                 <td>
                     @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }, new { @class = "btn btn-edit" }) |

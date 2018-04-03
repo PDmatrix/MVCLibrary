@@ -14,11 +14,17 @@ namespace Pract.Controllers
     [Authorize]
     public class BooksController : Controller
     {
+        private readonly BookRepository _db;
+
+        public BooksController()
+        {
+            _db = new BookRepository(new LibContext());
+        }
 
         // GET: Books
         public ActionResult Index(int page = 1)
         {
-            return View(BookHandler.IndexBook(page));
+            return View(_db.PageBook(page > 0 ? page : 1));
         }
 
         // GET: Books/Create
@@ -36,7 +42,7 @@ namespace Pract.Controllers
         {
             if (ModelState.IsValid)
             {
-                BookHandler.CreateBook(book);
+                _db.Create(book);
                 return RedirectToAction("Index");
             }
             return View(book);
@@ -50,7 +56,7 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = BookHandler.FindBook(id);
+            Book book = _db.Find(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -66,7 +72,7 @@ namespace Pract.Controllers
         {
             if (ModelState.IsValid)
             {
-                BookHandler.EditBook(book);
+                _db.Update(book);
                 return RedirectToAction("Index");
             }
             return View(book);
@@ -80,7 +86,7 @@ namespace Pract.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = BookHandler.FindBook(id);
+            Book book = _db.Find(id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -92,9 +98,9 @@ namespace Pract.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Manager")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id)
         {
-            BookHandler.DeleteBook(id);
+            _db.Delete(id);
             return RedirectToAction("Index");
         }
     }

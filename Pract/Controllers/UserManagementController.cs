@@ -43,7 +43,9 @@ namespace Pract.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            return View(new UserManagementViewModel { 
+                Roles = new SelectList(RoleManager.Roles.ToArray(),"Name","Name"),
+            });
         }
 
         [HttpPost]
@@ -59,12 +61,11 @@ namespace Pract.Controllers
                     await UserManager.AddToRoleAsync(newUser.Id, model.Role);
                     return RedirectToAction("Index");
                 }
-                else
-                {
-                    ModelState.AddModelError("", @"Что-то пошло не так");
-                }
+                //ModelState.AddModelError("", @"Введены ошибочные значения!");
             }
-            return View(model);
+            return View(new UserManagementViewModel {
+                Roles = new SelectList(RoleManager.Roles.ToArray(),"Name","Name"),
+            });
         }
  
         public async Task<ActionResult> Edit(string id)
@@ -72,14 +73,17 @@ namespace Pract.Controllers
             ApplicationUser user = await UserManager.FindByIdAsync(id);
             if (user != null)
             {
-                return View(new UserManagementViewModel() { Id=user.Id, Role = UserManager.GetRoles(user.Id).FirstOrDefault(), Username = user.UserName} );
+                return View(new UserManagementEditViewModel() { 
+                    Id=user.Id,
+                    Roles = new SelectList(RoleManager.Roles.ToArray(),"Name","Name", UserManager.GetRoles(id).FirstOrDefault()),
+                    Username = user.UserName
+                });
             }
             return RedirectToAction("Index");
         }
 
-
         [HttpPost]
-        public async Task<ActionResult> Edit(UserManagementViewModel model)
+        public async Task<ActionResult> Edit(UserManagementEditViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +91,6 @@ namespace Pract.Controllers
                 if (user != null)
                 {
                     user.UserName = model.Username;
-                    user.PasswordHash = UserManager.PasswordHasher.HashPassword(model.Password);
                     await UserManager.RemoveFromRolesAsync(user.Id, UserManager.GetRoles(user.Id).ToArray());
                     await UserManager.AddToRoleAsync(user.Id, model.Role);
                     IdentityResult result = await UserManager.UpdateAsync(user);
@@ -101,7 +104,7 @@ namespace Pract.Controllers
                     }
                 }
             }
-            return View(model);
+            return View();
         }
  
         public async Task<ActionResult> Delete(string id)

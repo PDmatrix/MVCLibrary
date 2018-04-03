@@ -216,6 +216,7 @@
     <Compile Include="Models\ReceiptPagingViewModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserIndexViewModel.cs" />
+    <Compile Include="Models\UserManagementEditViewModel.cs" />
     <Compile Include="Models\UserManagementViewModel.cs" />
     <Compile Include="Models\UserPagingViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -5,6 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Ninject;
+using Ninject.Modules;
+using Ninject.Web.Mvc;
+using Pract.Util;
 
 namespace Pract
 {
@@ -16,6 +20,12 @@ namespace Pract
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            NinjectModule registrations = new NinjectRegistrations();
+            var kernel = new StandardKernel(registrations);
+            kernel.Unbind<ModelValidatorProvider>();
+            DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
+            
         }
     }
 }

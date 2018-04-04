@@ -6,19 +6,20 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Pract.Interfaces;
 using Pract.Models;
-using Pract.Server;
+using Pract.Repositories;
 
 namespace Pract.Controllers
 {
     [Authorize]
     public class UsersController : Controller
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UsersController()
+        public UsersController(IUnitOfWork uow)
         {
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = uow;
         }
 
         // GET: Users

@@ -8,11 +8,11 @@ namespace Pract.Repositories
 {
     public class UserRepository : GenericRepository<User>
     {
-        private static UserPagingViewModel PagingIndex(IQueryable<UserIndexViewModel> users, int page)
+        private static PagingViewModel<UserIndexViewModel> PagingIndex(IQueryable<UserIndexViewModel> items, int page)
         {
-            IEnumerable<UserIndexViewModel> usersPerPages= users.OrderBy(r => r.Users.Id).Skip((page - 1) * ResourceClass.PageSize).Take(ResourceClass.PageSize);
-            PageInfo pageInfo = new PageInfo { PageNumber=page, TotalItems= users.Count()};
-            return new UserPagingViewModel { PageInfo = pageInfo, UserViewModel = usersPerPages };
+            IEnumerable<UserIndexViewModel> itemsPerPages= items.Skip((page - 1) * ResourceClass.PageSize).Take(ResourceClass.PageSize);
+            PageInfo pageInfo = new PageInfo { PageNumber=page, TotalItems= items.Count()};
+            return new PagingViewModel<UserIndexViewModel> { PageInfo = pageInfo, Elems = itemsPerPages };
         }
 
         private readonly LibContext _db;
@@ -22,13 +22,13 @@ namespace Pract.Repositories
             _db = new LibContext();
         }
 
-        public UserPagingViewModel PageUser(int page)
+        public PagingViewModel<UserIndexViewModel> PageUser(int page)
         {
             return PagingIndex(_db.Users.Select(x => new UserIndexViewModel
             {
                 Users = x,
                 Birthday = x.Birthday
-            }), page);
+            }).OrderBy(r => r.Users.Id), page);
         }
 
         public UserIndexViewModel FindViewModel(int? id)

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using Pract.App_LocalResources;
 using Pract.Interfaces;
+using Pract.Models;
 
 namespace Pract.Repositories
 {
@@ -45,6 +47,11 @@ namespace Pract.Repositories
                 _context.SaveChanges();
             }
         }
-
+        public virtual PagingViewModel<TEntity> PagingIndex(IQueryable<TEntity> items, int page)
+        {
+            IEnumerable<TEntity> itemsPerPages= items.Skip((page - 1) * ResourceClass.PageSize).Take(ResourceClass.PageSize);
+            PageInfo pageInfo = new PageInfo { PageNumber=page, TotalItems= items.Count()};
+            return new PagingViewModel<TEntity> { PageInfo = pageInfo, Elems = itemsPerPages };
+        }
     }
 }

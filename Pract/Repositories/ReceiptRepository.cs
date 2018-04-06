@@ -10,14 +10,6 @@ namespace Pract.Repositories
 {
     public class ReceiptRepository : GenericRepository<Receipt>
     {
-
-        private static ReceiptPagingViewModel PagingIndex(IQueryable<Receipt> receipts, int page)
-        {
-            IEnumerable<Receipt> receiptsPerPages= receipts.OrderBy(r => r.Id).Skip((page - 1) * ResourceClass.PageSize).Take(ResourceClass.PageSize);
-            PageInfo pageInfo = new PageInfo { PageNumber=page, TotalItems= receipts.Count()};
-            return new ReceiptPagingViewModel { PageInfo = pageInfo, Receipts = receiptsPerPages };
-        }
-
         private readonly LibContext _db;
  
         public ReceiptRepository(DbContext db) : base(db)
@@ -25,9 +17,9 @@ namespace Pract.Repositories
             _db = new LibContext();
         }
 
-        public ReceiptPagingViewModel PageReceipt(int page)
+        public PagingViewModel<Receipt> PageReceipt(int page)
         {
-            return PagingIndex(_db.Receipts.Include(r => r.Book).Include(r => r.User), page);
+            return PagingIndex(_db.Receipts.Include(r => r.Book).Include(r => r.User).OrderBy(r => r.Id), page);
         }
 
         public ReceiptEditViewModel ReceiptCreateView()
@@ -60,9 +52,9 @@ namespace Pract.Repositories
             return _db.Receipts.Include(r => r.Book).Include(r => r.User).FirstOrDefault(r => r.Id == id);
         }
 
-        public ReceiptPagingViewModel OverdueReceipt(int page)
+        public PagingViewModel<Receipt> OverdueReceipt(int page)
         {
-            return PagingIndex(_db.Receipts.Where(r => r.DateReturn <= DateTime.Now).Include(r => r.Book).Include(r => r.User), page);
+            return PagingIndex(_db.Receipts.Where(r => r.DateReturn <= DateTime.Now).Include(r => r.Book).Include(r => r.User).OrderBy(r => r.Id), page);
         }
     }
 }

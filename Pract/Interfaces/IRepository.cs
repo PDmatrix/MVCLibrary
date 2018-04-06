@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Pract.App_LocalResources;
+using Pract.Models;
 
 namespace Pract.Interfaces
 {
@@ -9,5 +12,6 @@ namespace Pract.Interfaces
         void Create(T item);
         void Update(T item);
         void Delete(int? id);
+        PagingViewModel<T> PagingIndex(IQueryable<T> items, int page);
     }
 }

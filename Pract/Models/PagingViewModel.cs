@@ -5,9 +5,9 @@ using System.Web;
 
 namespace Pract.Models
 {
-    public class UserPagingViewModel
+    public class PagingViewModel<T> where T : class 
     {
-        public IEnumerable<UserIndexViewModel> UserViewModel { get; set; }
+        public IEnumerable<T> Elems { get; set; }
         public PageInfo PageInfo { get; set; }
     }
 }

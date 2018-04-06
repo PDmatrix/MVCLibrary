@@ -1,20 +1,20 @@
 ﻿@using System.Collections
 @using Pract.Helpers
-@model Pract.Models.ReceiptPagingViewModel
+@model Pract.Models.PagingViewModel<Pract.Models.Receipt>
 
 <table class="table table-hover">
     <thead>
     <tr>
-        <th>@Html.DisplayNameFor(model => model.Receipts.FirstOrDefault().UserId)</th>
-        <th>@Html.DisplayNameFor(model => model.Receipts.FirstOrDefault().BookId)</th>
-        <th>@Html.DisplayNameFor(model => model.Receipts.FirstOrDefault().Book.Author)</th>
-        <th>@Html.DisplayNameFor(model => model.Receipts.FirstOrDefault().Date)</th>
-        <th>@Html.DisplayNameFor(model => model.Receipts.FirstOrDefault().DateReturn)</th>
+        <th>@Html.DisplayNameFor(model => model.Elems.FirstOrDefault().UserId)</th>
+        <th>@Html.DisplayNameFor(model => model.Elems.FirstOrDefault().BookId)</th>
+        <th>@Html.DisplayNameFor(model => model.Elems.FirstOrDefault().Book.Author)</th>
+        <th>@Html.DisplayNameFor(model => model.Elems.FirstOrDefault().Date)</th>
+        <th>@Html.DisplayNameFor(model => model.Elems.FirstOrDefault().DateReturn)</th>
         <th></th>
     </tr>
     </thead>
 
-    @foreach (var item in Model.Receipts)
+    @foreach (var item in Model.Elems)
     {
         <tr @(item.DateReturn <= DateTime.Now ? "class=overdue" : "")>
             <td>

@@ -10,8 +10,8 @@ namespace Pract.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        ReceiptRepository Receipts { get; }
-        BookRepository Books { get; }
-        UserRepository Users { get; }
+        IReceiptRepository Receipts { get; }
+        IBookRepository Books { get; }
+        IUserRepository Users { get; }
     }
 }

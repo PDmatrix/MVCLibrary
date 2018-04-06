@@ -2,11 +2,12 @@
 using System.Data.Entity;
 using System.Linq;
 using Pract.App_LocalResources;
+using Pract.Interfaces;
 using Pract.Models;
 
 namespace Pract.Repositories
 {
-    public sealed class BookRepository : GenericRepository<Book>
+    public sealed class BookRepository : GenericRepository<Book>, IBookRepository
     {
         private readonly LibContext _db;
 

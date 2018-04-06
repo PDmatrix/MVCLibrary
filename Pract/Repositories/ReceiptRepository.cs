@@ -4,11 +4,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using Pract.App_LocalResources;
+using Pract.Interfaces;
 using Pract.Models;
 
 namespace Pract.Repositories
 {
-    public class ReceiptRepository : GenericRepository<Receipt>
+    public class ReceiptRepository : GenericRepository<Receipt>, IReceiptRepository
     {
         private readonly LibContext _db;
  

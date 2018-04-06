@@ -6,16 +6,21 @@ namespace Pract.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly LibContext _db = new LibContext();
+        private readonly LibContext _db;
         private BookRepository _bookRepository;
         private ReceiptRepository _receiptRepository;
         private UserRepository _userRepository;
 
-        public BookRepository Books => _bookRepository ?? (_bookRepository = new BookRepository(_db));
+        public UnitOfWork()
+        {
+            _db = new LibContext();
+        }
 
-        public ReceiptRepository Receipts => _receiptRepository ?? (_receiptRepository = new ReceiptRepository(_db));
+        public IBookRepository Books => _bookRepository ?? (_bookRepository = new BookRepository(_db));
 
-        public UserRepository Users => _userRepository ?? (_userRepository = new UserRepository(_db));
+        public IReceiptRepository Receipts => _receiptRepository ?? (_receiptRepository = new ReceiptRepository(_db));
+
+        public IUserRepository Users => _userRepository ?? (_userRepository = new UserRepository(_db));
 
         private bool _disposed = false;
 

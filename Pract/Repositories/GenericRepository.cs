@@ -7,7 +7,7 @@ using Pract.Models;
 
 namespace Pract.Repositories
 {
-    public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         readonly DbContext _context;
         readonly DbSet<TEntity> _dbSet;

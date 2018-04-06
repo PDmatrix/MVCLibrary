@@ -2,11 +2,12 @@
 using System.Data.Entity;
 using System.Linq;
 using Pract.App_LocalResources;
+using Pract.Interfaces;
 using Pract.Models;
 
 namespace Pract.Repositories
 {
-    public class UserRepository : GenericRepository<User>
+    public class UserRepository : GenericRepository<User>, IUserRepository
     {
         private static PagingViewModel<UserIndexViewModel> PagingIndex(IQueryable<UserIndexViewModel> items, int page)
         {

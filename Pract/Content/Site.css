@@ -94,6 +94,14 @@ ul {
     background: rgb(70, 70, 70);
 }
 
+.btn-primary {
+    color: white !important;
+}
+
+.btn-default {
+    color: black;
+}
+
 .overdue {
     background: rgba(255, 159, 159, 0.22);
 }
